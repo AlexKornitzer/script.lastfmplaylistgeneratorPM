@@ -76,6 +76,10 @@ class MyPlayer( xbmc.Player ) :
 		print "[LFM PLG(PM)] onPlayBackStarted started"
 		if xbmc.Player().isPlayingAudio() == True:
 			currentlyPlayingTitle = xbmc.Player().getMusicInfoTag().getTitle()
+			# The get title function will return the file type too, this breaks the lastfm query. Lets try and remove it!
+			currentlyPlayingTitleSplit = currentlyPlayingTitle.rsplit('.', 1) 
+			if len(currentlyPlayingTitleSplit) == 2 and len(currentlyPlayingTitleSplit[1]) == 3: # Assume extension is length of 3
+				currentlyPlayingTitle = currentlyPlayingTitleSplit[0]
 			currentlyPlayingArtist = xbmc.Player().getMusicInfoTag().getArtist()
 			print "[LFM PLG(PM)] " + currentlyPlayingArtist + " - " + currentlyPlayingTitle + " started playing"
 			self.countFoundTracks = 0
